@@ -1,6 +1,6 @@
 <x-admin-layout 
 
-title="Categorías"
+title="Productos"
 
 :breadcrumbs="[
     [
@@ -8,8 +8,8 @@ title="Categorías"
         'href' => route('admin.dashboard'),
     ],
     [
-        'name' => 'Categorías',
-        'href' => route('admin.categories.index'),
+        'name' => 'Productos',
+        'href' => route('admin.products.index'),
 
     ],
     [
@@ -17,14 +17,25 @@ title="Categorías"
     ],
 ]">
     <x-wire-card>
-        <form action="{{ route('admin.categories.store') }}" method="POST" class="space-y-4">
+        <form action="{{ route('admin.products.store') }}" method="POST" class="space-y-4">
             @csrf
-            <x-wire-input label="Nombre" name="name" placeholder="Nombre de la categoría" value="{{ old('name') }}" />
+            <x-wire-input label="Nombre" name="name" placeholder="Nombre de los productos" value="{{ old('name') }}" />
             
-            <x-wire-textarea label="Descripción" name="description"  placeholder="Descripción de la categoría">
-            value="{{ old('description') }}"
-         </x-wire-textarea>
-        
+            <x-wire-textarea label="Descripción" name="description"  placeholder="Descripción de los productos">
+            {{ old('description') }}
+            </x-wire-textarea>
+                    
+            <x-wire-input type="number" label="Precio" name="price" placeholder="Precio del producto" value="{{ old('price') }}" />
+
+            <x-wire-native-select label="Categoría" name="category_id" >
+                @foreach ( $categories as $category )
+                    <option value="{{ $category->id }}" @selected(old('category_id')==$category->id)>
+                        {{ $category->name }}
+                    </option>
+                    
+                @endforeach
+            </x-wire-native-select>
+
             <div class="flex justify-end ">
                 <x-button>
                     Guardar

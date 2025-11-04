@@ -5,10 +5,11 @@ namespace App\Livewire\Admin\Datatables;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProductTable extends DataTableComponent
 {
-    protected $model = Product::class;
+    // protected $model = Product::class;
 
     public function configure(): void
     {
@@ -20,24 +21,26 @@ class ProductTable extends DataTableComponent
         return [
             Column::make("Id", "id")
                 ->sortable(),
-            Column::make("Name", "name")
+            Column::make("Nombre", "name")
+                ->searchable()
                 ->sortable(),
-            Column::make("Description", "description")
+            Column::make("Categoría", "category.name")
+                ->searchable()
                 ->sortable(),
-            Column::make("Sku", "sku")
+            Column::make("Precio", "price")
                 ->sortable(),
-            Column::make("Barcode", "barcode")
-                ->sortable(),
-            Column::make("Price", "price")
-                ->sortable(),
-            Column::make("Category id", "category_id")
-                ->sortable(),
-            Column::make("Observation", "observation")
-                ->sortable(),
-            Column::make("Created at", "created_at")
-                ->sortable(),
-            Column::make("Updated at", "updated_at")
-                ->sortable(),
+            Column::make("Acciones", "description")
+                ->label(function($row){
+                    return view('admin.products.actions',['product'=>$row]);
+                }),
         ];
     }
+
+
+    public function builder():Builder
+    {
+        return Product::query()
+            ->with(['category']);
+    }
+
 }

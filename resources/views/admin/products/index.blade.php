@@ -11,6 +11,14 @@ title="Productos"
         'name' => 'Productos',
     ],
 ]">
+    @push('css')
+    <style>
+        table th span, table td{
+            font-size: 0.75rem!important;
+        }
+    </style>
+        
+    @endpush
     <x-slot name="action" blue>
         <x-wire-button href="{{ route('admin.products.create') }}" blue >
             Nuevo
