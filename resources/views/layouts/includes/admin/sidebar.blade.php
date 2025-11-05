@@ -22,6 +22,13 @@ $links=[
 
 ],
 [
+'name'=>'Clientes',
+'icon'=>'fa-solid fa-users',
+'href'=>route('admin.customers.index'),
+'active'=>request()->routeIs('admin.customers.*'),
+
+],
+[
    'header'=>'Administrar páginas',
 ],
 [
