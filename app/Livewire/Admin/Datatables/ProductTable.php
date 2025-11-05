@@ -50,7 +50,7 @@ class ProductTable extends DataTableComponent
     public function builder():Builder
     {
         return Product::query()
-            ->with(['category']);
+            ->with(['category','images']);
     }
 
 }

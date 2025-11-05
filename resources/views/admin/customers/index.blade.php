@@ -1,6 +1,6 @@
 <x-admin-layout 
 
-title="Categorías"
+title="Clientes"
 
 :breadcrumbs="[
     [
@@ -8,15 +8,23 @@ title="Categorías"
         'href' => route('admin.dashboard'),
     ],
     [
-        'name' => 'Categorías',
+        'name' => 'Clientes',
     ],
 ]">
+    @push('css')
+    <style>
+        table th span, table td{
+            font-size: 0.75rem!important;
+        }
+    </style>
+        
+    @endpush
     <x-slot name="action" blue>
-        <x-wire-button href="{{ route('admin.categories.create') }}" blue >
+        <x-wire-button href="{{ route('admin.customers.create') }}" blue >
             Nuevo
         </x-wire-button>
     </x-slot>
-    @livewire('admin.datatables.category-table')
+    @livewire('admin.datatables.customer-table')
     @push('js')
         <script>
             forms= document.querySelectorAll('.delete-form');

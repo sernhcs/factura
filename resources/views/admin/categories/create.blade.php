@@ -22,7 +22,7 @@ title="Categorías"
             <x-wire-input label="Nombre" name="name" placeholder="Nombre de la categoría" value="{{ old('name') }}" />
             
             <x-wire-textarea label="Descripción" name="description"  placeholder="Descripción de la categoría">
-            value="{{ old('description') }}"
+            {{ old('description') }}
          </x-wire-textarea>
         
             <div class="flex justify-end ">

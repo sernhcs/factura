@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Customer;
 use App\Http\Controllers\Controller;
+use App\Models\Identity;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -21,7 +22,8 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return view('admin.customers.create');
+        $identities = Identity::all();
+        return view('admin.customers.create', compact('identities'));
     }
 
     /**
@@ -29,7 +31,23 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data  = $request->validate([
+            'identity_id' => 'required|exists:identities,id',
+            'document_number' => 'required|string|unique:customers,document_number',
+            'name' => 'required|max:255',
+            'address' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
+        ]);
+        $customer = Customer::create($data);
+
+        session()->flash('swal',[
+            'icon' => 'success',
+            'title' => 'Bien Hecho!',
+            'text' => 'Cliente creado correctamente.'
+        ]);
+
+        return redirect()->route('admin.customers.index', );
     }
  
     /**
@@ -37,7 +55,9 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        return view('admin.customers.edit', compact('customer'));
+        
+        $identities = Identity::all();
+        return view('admin.customers.edit', compact('customer','identities'));
     }
 
     /**
@@ -45,7 +65,22 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+         $data  = $request->validate([
+            'identity_id' => 'required|exists:identities,id',
+            'document_number' => 'required|string|unique:customers,document_number',
+            'name' => 'required|max:255',
+            'address' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
+        ]);
+
+        $customer->update($data);
+        session()->flash('swal',[
+            'icon' => 'success',
+            'title' => 'Bien Hecho!',
+            'text' => 'Cliente actualizado correctamente.'
+        ]);
+        return redirect()->route('admin.customers.edit', $customer);
     }
 
     /**

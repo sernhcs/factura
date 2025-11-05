@@ -1,6 +1,6 @@
 <x-admin-layout 
 
-title="Categorías"
+title="Clientes"
 
 :breadcrumbs="[
     [
@@ -8,8 +8,8 @@ title="Categorías"
         'href' => route('admin.dashboard'),
     ],
     [
-        'name' => 'Categorías',
-        'href' => route('admin.categories.index'),
+        'name' => 'Clientes',
+        'href' => route('admin.customers.index'),
 
     ],
     [
@@ -17,13 +17,33 @@ title="Categorías"
     ],
 ]">
     <x-wire-card>
-        <form action="{{ route('admin.categories.store') }}" method="POST" class="space-y-4">
+        
+        <form action="{{ route('admin.customers.store') }}" method="POST" class="space-y-4">
             @csrf
-            <x-wire-input label="Nombre" name="name" placeholder="Nombre de la categoría" value="{{ old('name') }}" />
-            
-            <x-wire-textarea label="Descripción" name="description"  placeholder="Descripción de la categoría">
-            value="{{ old('description') }}"
-         </x-wire-textarea>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <x-wire-native-select label="Tipo de documento" name="identity_id" >
+                @foreach ( $identities as $identity )
+                    <option value="{{ $identity->id }}" @selected( old('identity_id') == $identity->id )>
+                        {{ $identity->name }}
+                    </option>
+                @endforeach
+            </x-wire-native-select>
+
+
+
+
+
+
+                <x-wire-input label="Número de identificación" name="document_number" placeholder="Número de identificación del cliente" value="{{ old('document_number') }}" required />
+
+            </div>
+            <x-wire-input label="Nombre" name="name" placeholder="Nombre del cliente" value="{{ old('name') }}" />
+
+            <x-wire-input label="Dirección" name="address" placeholder="Dirección del cliente" value="{{ old('address') }}" />
+
+            <x-wire-input label="Correo electrónico" name="email" type="email" placeholder="Correo electrónico del cliente" value="{{ old('email') }}" />
+
+            <x-wire-input label="Teléfono" name="phone" placeholder="Teléfono del cliente" value="{{ old('phone') }}" />
         
             <div class="flex justify-end ">
                 <x-button>
