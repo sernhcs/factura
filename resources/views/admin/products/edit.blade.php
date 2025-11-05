@@ -16,6 +16,18 @@ title="Productos"
         'name' => 'Editar',
     ],
 ]">
+    @push('css')
+        <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+        {{-- <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css"> --}}
+
+    @endpush
+
+    <div>
+        <form action="{{ route('admin.products.dropzone',$product) }}" class="dropzone" method="POST" id="my-dropzone">
+            @csrf
+        </form>
+    </div>
+
     <x-wire-card>
         <form action="{{ route('admin.products.update',$product) }}" method="POST" class="space-y-4">
             @csrf
@@ -45,4 +57,56 @@ title="Productos"
                 
         </form>
     </x-wire-card>
+    
+
+    @push('js')
+        <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+
+        <script>
+        Dropzone.options.myDropzone = {
+            addRemoveLinks: true,
+            dictRemoveFile: "Eliminar",
+            dictCancelUpload: "Cancelar",
+            dictDefaultMessage: "Arrastra o haz clic para subir imágenes",
+            init: function() {
+              let myDropzone = this;
+              let images = @json($product->images);
+
+              images.forEach(function(image) {
+                let mockFile = { 
+                    id: image.id,
+                    name: image.path.split('/').pop(), 
+                    size: image.size 
+                };
+                let imageUrl = "{{ Storage::url('') }}" + image.path;
+                myDropzone.displayExistingFile(mockFile, imageUrl);
+
+                // myDropzone.displayExistingFile(mockFile, `{{ Storage::url('${image.path}') }}`);
+                myDropzone.emit("complete", mockFile);
+                myDropzone.files.push(mockFile);
+            });
+            this.on("success", function(file, response) {
+                    file.id = response.id; 
+                });
+
+              
+            this.on("removedfile", function(file) {
+                    axios.delete('/admin/images/' + file.id)
+                    .then(function (response) {
+                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                });
+
+
+            }
+        };
+        </script>
+
+    @endpush
+
+
+
 </x-admin-layout>

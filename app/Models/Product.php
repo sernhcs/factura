@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Facades\Storage;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +21,16 @@ class Product extends Model
         'category_id',
         'observation',
     ];
+
+
+// accesores
+    protected function image():  Attribute
+    {
+        return  Attribute::make(
+            get: fn() => $this->images()->first() ? Storage::url($this->images()->first()->path) : 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150"><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="50">🛒</text></svg>',
+        );
+    }
+
     // realcion uno a muchos inversa
     public function category()
     {

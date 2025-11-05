@@ -16,6 +16,12 @@ title="Productos"
         table th span, table td{
             font-size: 0.75rem!important;
         }
+     .product-image{
+            width: 5rem;
+            height: 3rem;
+            object-fit: cover;
+            border-radius: 0.25rem;
+        }
     </style>
         
     @endpush
