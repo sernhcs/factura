@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Warehouse extends Model
 {
     protected $fillable=[
-        'namee',
+        'name',
         'location',
     ];
+
+    public function inventories()
+    {
+        return $this->hasMany(Inventory::class);
+    }
 }
