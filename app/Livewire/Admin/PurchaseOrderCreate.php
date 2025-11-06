@@ -30,4 +30,33 @@ class PurchaseOrderCreate extends Component
         
         return view('livewire.admin.purchase-order-create');
     }
+    public function addProduct()
+    {
+        $this->validate([
+            'product_id' => 'required|exists:products,id',
+        ],[],[
+            'product_id' => 'Producto',
+        ]);
+
+
+        $existing = collect($this->products)->firstWhere('id', $this->product_id);
+        if ($existing) {
+           $this->dispatch('swal',[
+                'icon' => 'warning',
+                'title' => 'Producto ya agregado',
+                'text' => 'El producto que intenta agregar ya se encuentra en la lista.',
+            ]);
+            return;
+        }
+
+        $product = \App\Models\Product::find($this->product_id);
+        $this->products[] = [
+            'id' => $product->id,
+            'name' => $product->name,
+            'quantity' => 1,
+            'price' => 0,
+            'subtotal' => 0,
+        ];
+        $this->reset('product_id');
+    }
 }
