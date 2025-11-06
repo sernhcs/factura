@@ -18,4 +18,6 @@ Route::post('products/{product}/dropzone',[ProductController::class,'dropzone'])
 
 Route::resource('customers',\App\Http\Controllers\Admin\CustomerController::class)->except(['show']);
 
+Route::resource('suppliers',\App\Http\Controllers\Admin\SupplierController::class)->except(['show']);
+
 Route::delete('images/{image}',[ImageController::class,'destroy'])->name('images.destroy');

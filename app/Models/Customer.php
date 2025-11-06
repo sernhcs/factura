@@ -32,4 +32,12 @@ class Customer extends Model
     {
         return $this->hasMany(PurchaseOrder::class);
     }
+    
+    public function quotes() {
+    return $this->hasMany(Quote::class);
+    }
+    public function sales() {
+    return $this->hasMany(Quote::class);
+    }
+
 }
