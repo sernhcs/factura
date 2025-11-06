@@ -43,7 +43,10 @@ $links = [
     [
         'name'   => 'Compras',
         'icon'   => 'fa-solid fa-cart-shopping',
-        'active' => request()->routeIs(['admin.suppliers.*']),
+        'active' => request()->routeIs([
+         'admin.suppliers.*'
+         ,'admin.purchase-orders.*'
+         ]),
         'submenu' => [
             [
                 'name'   => 'Proveedores',
@@ -54,8 +57,8 @@ $links = [
             [
                 'name'   => 'Ordenes de compra',
                //  'icon'   => 'fa-solid fa-truck',
-                'href'   => route('admin.dashboard'),
-                'active' => false,
+                'href'   => route('admin.purchase-orders.index'),
+                'active' => request()->routeIs('admin.purchase-orders.*'),
             ],
             [
                 'name'   => 'Compras',
