@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             
             $table->foreignId('product_id')
-                ->constrained('warehouses')
+                ->constrained('products')
                 ->onDelete('cascade');  
 
             $table->morphs('productable');

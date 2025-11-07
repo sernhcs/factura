@@ -16,7 +16,8 @@ return new class extends Migration
             $table->integer('voucher_type');
             $table->string('serie');
             $table->integer('correlative');
-            $table->timestamp('date');
+            $table->timestamp('date')
+                ->useCurrent();
 
             $table->foreignId('supplier_id')
                 ->constrained()

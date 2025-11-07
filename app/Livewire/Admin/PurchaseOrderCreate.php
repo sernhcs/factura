@@ -23,7 +23,48 @@ class PurchaseOrderCreate extends Component
         $this->correlative = PurchaseOrder::max('correlative')+1 ;
     }   
     public function save()
-    {}
+    {
+        $this->validate([
+            'voucher_type' => 'required|in:1,2',
+            'date' => 'nullable|date',
+            'supplier_id' => 'required|exists:suppliers,id',
+            'total'=>'required|numeric|min:0',
+            'observation' => 'nullable|string|max:255',
+            'products' => 'required|array|min:1',
+            'products.*.id' => 'required|exists:products,id',
+            'products.*.quantity' => 'required|integer|min:1',   
+            'products.*.price' => 'required|numeric|min:0',
+        ]);
+
+        // Crear la orden de compra
+        $purchaseOrder = PurchaseOrder::create([
+            'voucher_type' => $this->voucher_type,
+            'serie' => $this->serie,
+            'correlative' => $this->correlative,
+            'date' => $this->date??now(),
+            'supplier_id' => $this->supplier_id,
+            'total' => $this->total,
+            'observation' => $this->observation,
+        ]);
+
+        // Asociar los productos a la orden de compra
+        foreach ($this->products as $product) {
+            $purchaseOrder->products()->attach($product['id'], [
+                'quantity' => $product['quantity'],
+                'price' => $product['price'],
+                'subtotal' => $product['quantity'] * $product['price'],
+            ]);
+        }
+
+
+        // Redirigir o mostrar un mensaje de éxito
+        session()->flash('swal',[
+            'icon' => 'success',
+            'title' => 'Éxito',
+            'text' => 'Orden de compra creada exitosamente.'
+        ]);
+        return redirect()->route('admin.purchase-orders.index');
+    }
 
     public function render()
     {
@@ -59,4 +100,5 @@ class PurchaseOrderCreate extends Component
         ];
         $this->reset('product_id');
     }
+
 }
