@@ -25,7 +25,8 @@ Route::delete('images/{image}',[ImageController::class,'destroy'])->name('images
 
 //  compras
 Route::resource('suppliers',\App\Http\Controllers\Admin\SupplierController::class)->except(['show']);
+Route::resource('purchase-orders',\App\Http\Controllers\Admin\PurchaseOrderController::class)->only(['index','create']);
+Route::resource('purchases',\App\Http\Controllers\Admin\PurchaseController::class)->only(['index','create']);
 
 // clientes
 Route::resource('customers',\App\Http\Controllers\Admin\CustomerController::class)->except(['show']);
-Route::resource('purchase-orders',\App\Http\Controllers\Admin\PurchaseOrderController::class)->only(['index','create']);
