@@ -31,20 +31,17 @@ init(){
                 <option value="2">Boleta</option>
             </x-wire-native-select>
 
-           <div class="col-span-1">
-             <x-wire-input 
-                class="col-span-1" 
-                disabled 
-                label="Serie" 
-                wire:model="serie" 
-            />
-
-            <x-wire-input 
-                class="col-span-1" 
-                disabled 
-                label="Correlativo" 
-                wire:model="correlative" 
-            />
+             <div class="col-span-1 grid grid-cols-2 gap-2">
+                <x-wire-input 
+                    disabled 
+                    label="Serie" 
+                    wire:model="serie" 
+                />
+                <x-wire-input 
+                    disabled 
+                    label="Correlativo" 
+                    wire:model="correlative" 
+                />
             </div>
 
             <x-wire-input 
@@ -53,10 +50,26 @@ init(){
                 label="Fecha de emisión" 
                 wire:model="date" 
             />
-        </div>
-
-        <div class="lg:grid lg:grid-cols-3 lg:flex lg:space-x-4 gap-4 mt-4">
             <x-wire-select
+                label="OC"
+                wire:model.live="purchase_order_id"
+                :async-data="[
+                    'api' => route('api.purchase-orders.index'),
+                    'method' => 'GET',
+                ]"
+                option-label="name"
+                option-value="id"
+                option-description="description"
+                placeholder="Seleccione una OC"
+                class="col-span-1"
+            />
+           
+        </div>
+      
+        <div class="grid lg:grid-cols-4 gap-4">
+            {{-- Proveedor ocupa las dos primeras columnas --}}
+            <x-wire-select
+                class="col-span-2"
                 label="Proveedor"
                 wire:model="supplier_id"
                 :async-data="[
@@ -66,8 +79,24 @@ init(){
                 option-label="name"
                 option-value="id"
                 placeholder="Seleccione un proveedor"
-                class="col-span-1"
-            />
+            />    
+            <x-wire-select
+                class="col-span-2"
+                label="Almacenes"
+                wire:model="warehouse_id"
+                :async-data="[
+                    'api' => route('api.warehouses.index'),
+                    'method' => 'POST',
+                ]"
+                option-label="name"
+                option-value="id"
+                option-description="description"
+                placeholder="Seleccione un almacén"
+            />    
+        </div>
+
+        <div class="lg:grid lg:grid-cols-3 lg:flex lg:space-x-4 gap-4 mt-4">
+        
             <x-wire-select
                 label="Producto"
                 wire:model="product_id"

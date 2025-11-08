@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Purchase;
+use App\Models\PurchaseOrder;
 use Livewire\Component;
 
 class PurchaseCreate extends Component
@@ -11,7 +12,13 @@ class PurchaseCreate extends Component
     public $serie='OC01';
     public $correlative;
     public $date;
+
+    public $purchase_order_id;
+    
     public $supplier_id;
+    
+    public $warehouse_id;
+
     public $total = 0;
     public $observation;
 
@@ -42,6 +49,27 @@ class PurchaseCreate extends Component
     {
         $this->correlative = Purchase::max('correlative')+1 ;
     }   
+
+    public function updated($property, $value)
+    {
+        if($property =='purchase_order_id'){
+            $purchaseOrder = PurchaseOrder::find($value);
+            if($purchaseOrder){
+                $this->products = $purchaseOrder->products->map(function($product){
+                    return [
+                        'id' => $product->id,
+                        'name' => $product->name,
+                        'quantity' => $product->pivot->quantity,
+                        'price' => $product->pivot->price,
+                        'subtotal' => $product->pivot->subtotal,
+                    ];
+                })->toArray();
+            }
+
+        }
+    }
+
+
     public function save()
     {
         $this->validate([
