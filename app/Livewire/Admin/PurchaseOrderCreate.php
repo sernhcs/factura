@@ -18,6 +18,26 @@ class PurchaseOrderCreate extends Component
     public $product_id;
     public $products = [];
 
+    public function boot()
+    {
+        $this->withValidator(function ($validator) {
+           
+                if ($validator->fails()) {
+                    $errors = $validator->errors()->toArray();
+                    $html="<ul class='text-left'>";
+                    foreach ($errors as $error) {
+                        $html.="<li> {$error[0]}</li>";
+                    }
+                    $html.="</ul>";
+                    $this->dispatch('swal',[
+                        'icon' => 'error',
+                        'title' => 'Error de validación',
+                        'html' => $html,
+                    ]);
+                }
+        });
+        
+    }
     public function mount()
     {
         $this->correlative = PurchaseOrder::max('correlative')+1 ;
@@ -34,6 +54,16 @@ class PurchaseOrderCreate extends Component
             'products.*.id' => 'required|exists:products,id',
             'products.*.quantity' => 'required|integer|min:1',   
             'products.*.price' => 'required|numeric|min:0',
+        ],[],[
+            'voucher_type' => 'Tipo de comprobante',
+            'date' => 'Fecha',
+            'supplier_id' => 'Proveedor',
+            'total' => 'Total',
+            'observation' => 'Observación',
+            'products' => 'Productos',
+            'products.*.id' => 'Producto',
+            'products.*.quantity' => 'Cantidad',
+            'products.*.price' => 'Precio',
         ]);
 
         // Crear la orden de compra

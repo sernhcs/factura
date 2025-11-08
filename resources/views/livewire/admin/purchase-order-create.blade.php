@@ -21,7 +21,7 @@ init(){
 <x-wire-card>
 
     <form wire:submit="save" class="space-y-4">
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid lg:grid-cols-4 gap-4">
             <x-wire-native-select 
                 class="col-span-1" 
                 label="Tipo de Comprobante" 
@@ -53,7 +53,7 @@ init(){
             />
         </div>
 
-        <div class="grid grid-cols-3 gap-4 mt-4">
+        <div class="lg:grid lg:grid-cols-3 lg:flex lg:space-x-4 gap-4 mt-4">
             <x-wire-select
                 label="Proveedor"
                 wire:model="supplier_id"
@@ -79,7 +79,10 @@ init(){
                 class="col-span-1"
             />
             <div class="col-span-1 flex-shrink-0 flex items-end justify-center">
-                <x-wire-button wire:click="addProduct" class="w-full">
+                <x-wire-button 
+                    wire:click="addProduct" 
+                    spinner="addProduct"
+                    class="w-full mt-4 lg:mt-6">
                     Agregar Producto
                 </x-wire-button>
             </div>
@@ -92,7 +95,7 @@ init(){
                 />
             </div> --}}
         </div>
-        <div>
+        <div class="overflow-x-auto w-full">
             <table class="w-full text-sm text-left divide-y divide-gray-200 mt-4">
                 <thead>
                     <tr class="bg-gray-100">
@@ -173,7 +176,9 @@ init(){
                 <span class="text-sm" x-text="total.toFixed(2)"></span>
             </div>
             <x-wire-button 
-            type="submit" icon="check" class="col-span-1 w-full"> 
+            type="submit" icon="check" 
+            spinner="save"
+            class="col-span-1 w-full"> 
                 Guardar
                     </x-wire-button>
                 </div>
