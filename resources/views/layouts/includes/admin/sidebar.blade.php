@@ -73,7 +73,7 @@ $links = [
         'name'   => 'Ventas',
         'icon'   => 'fa-solid fa-cart-plus',
         'active' => request()->routeIs([
-            'admin.customers.*', 'admin.quotes.*'
+            'admin.customers.*', 'admin.quotes.*', 'admin.sales.*'
        ]),
         'submenu' => [
             [
@@ -91,8 +91,8 @@ $links = [
             [
                 'name'   => 'Ventas',
                //  'icon'   => 'fa-solid fa-truck',
-                'href'   => route('admin.dashboard'),
-                'active' => false,
+                'href'   => route('admin.sales.index'),
+                'active' => request()->routeIs('admin.sales.*'),
             ],
         ],
     ],

@@ -34,3 +34,4 @@ Route::resource('customers',\App\Http\Controllers\Admin\CustomerController::clas
 
 // ventas
 Route::resource('quotes',\App\Http\Controllers\Admin\QuoteController::class)->only(['index','create']);
+Route::resource('sales',\App\Http\Controllers\Admin\SaleController::class)->only(['index','create']);
