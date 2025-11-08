@@ -33,12 +33,12 @@ init(){
 
              <div class="col-span-1 grid grid-cols-2 gap-2">
                 <x-wire-input 
-                    disabled 
+                     
                     label="Serie" 
                     wire:model="serie" 
                 />
                 <x-wire-input 
-                    disabled 
+                     
                     label="Correlativo" 
                     wire:model="correlative" 
                 />

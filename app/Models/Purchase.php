@@ -17,6 +17,11 @@ class Purchase extends Model
         'total',
         'observation',
     ];
+
+    protected $casts=[
+        'date'=>'datetime',
+    ];
+
     public function supplier()
     {
         return $this->belongsTo(Supplier::class);

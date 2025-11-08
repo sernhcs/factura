@@ -16,7 +16,8 @@ title="Compras"
             Nuevo
         </x-wire-button>
     </x-slot>
-    {{-- @livewire('admin.datatables.purchases-table') --}}
+    @livewire('admin.datatables.purchase-table')
+
  
 
 </x-admin-layout>
