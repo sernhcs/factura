@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class PurchaseOrderController extends Controller
+class QuoteController extends Controller
 {
     public function index()
     {
-        return view('admin.purchase-orders.index');
+        return view('admin.quotes.index');
     }
     public function create()
     {
-        return view('admin.purchase-orders.create');
+        return view('admin.quotes.create');
     }
 }

@@ -72,7 +72,9 @@ $links = [
     [
         'name'   => 'Ventas',
         'icon'   => 'fa-solid fa-cart-plus',
-        'active' => request()->routeIs(['admin.customers.*']),
+        'active' => request()->routeIs([
+            'admin.customers.*', 'admin.quotes.*'
+       ]),
         'submenu' => [
             [
                 'name'   => 'Clientes',
@@ -83,8 +85,8 @@ $links = [
             [
                 'name'   => 'Cotizaciones',
                //  'icon'   => 'fa-solid fa-truck',
-                'href'   => route('admin.dashboard'),
-                'active' => false,
+                'href'   => route('admin.quotes.index'),
+                'active' => request()->routeIs('admin.quotes.*'),
             ],
             [
                 'name'   => 'Ventas',

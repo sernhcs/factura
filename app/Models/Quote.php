@@ -15,6 +15,13 @@ class Quote extends Model
         'total',
         'observation',
     ];
+
+    protected $casts=[
+        'date'=>'datetime:d/m/Y',
+        'total'=>'decimal:2',
+    ];
+
+
     // realcuiob yuno amuchos inversa
     public function customer()
     {

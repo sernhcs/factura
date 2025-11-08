@@ -30,3 +30,7 @@ Route::resource('purchases',\App\Http\Controllers\Admin\PurchaseController::clas
 
 // clientes
 Route::resource('customers',\App\Http\Controllers\Admin\CustomerController::class)->except(['show']);
+
+
+// ventas
+Route::resource('quotes',\App\Http\Controllers\Admin\QuoteController::class)->only(['index','create']);
