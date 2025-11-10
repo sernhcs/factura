@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transfer extends Model
 {
-      protected $fillable=[
-        'type',
+    protected $fillable=[
         'serie',
         'correlative',
         'date',
@@ -15,6 +14,10 @@ class Transfer extends Model
         'observation',
         'origin_warehouse_id',
         'destination_warehouse_id',
+    ];
+
+    protected $casts=[
+      'date'=>'datetime'
     ];
     // realcioinbn uno aa muchos inversa
     public function originWarehouse()

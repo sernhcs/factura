@@ -38,3 +38,6 @@ Route::resource('sales',\App\Http\Controllers\Admin\SaleController::class)->only
 
 // movimientos
 Route::resource('movements',\App\Http\Controllers\Admin\MovementController::class)->only(['index','create']);
+
+// Transferencias
+Route::resource('transfers',\App\Http\Controllers\Admin\TransferController::class)->only(['index','create']);

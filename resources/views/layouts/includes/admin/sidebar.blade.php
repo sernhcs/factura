@@ -101,6 +101,7 @@ $links = [
       'icon'   => 'fa-solid fa-arrows-rotate',
       'active' => request()->routeIs([
          'admin.movements.*',
+         'admin.transfers.*'
       ]),
       'submenu' => [
          [ 
@@ -110,8 +111,8 @@ $links = [
          ],
          [ 
             'name'=>'Transferencias', 
-            'href'=> route('admin.dashboard'), 
-            'active'=> false, 
+            'href'=> route('admin.transfers.index'), 
+            'active'=> request()->routeIs('admin.transfers.*')
          ],
       ]
    ],
