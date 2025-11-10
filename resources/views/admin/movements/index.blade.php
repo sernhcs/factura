@@ -1,6 +1,6 @@
 <x-admin-layout 
 
-title="Cotizaciones"
+title="Entradas y salidas"
 
 :breadcrumbs="[
     [
@@ -8,15 +8,15 @@ title="Cotizaciones"
         'href' => route('admin.dashboard'),
     ],
     [
-        'name' => 'Cotizaciones',
+        'name' => 'Entradas y salidas',
     ],
 ]">
     <x-slot name="action" blue>
-        <x-wire-button href="{{ route('admin.quotes.create') }}" blue >
+        <x-wire-button href="{{ route('admin.movements.create') }}" blue >
             Nuevo
         </x-wire-button>
     </x-slot>
-    @livewire('admin.datatables.quote-table')
+    @livewire('admin.datatables.movement-table')
 
  
 

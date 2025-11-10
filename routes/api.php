@@ -4,6 +4,7 @@ use App\Models\Customer;
 use App\Models\Product;
 use App\Models\PurchaseOrder;
 use App\Models\Quote;
+use App\Models\Reason;
 use App\Models\Supplier;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
@@ -180,3 +181,21 @@ Route::post('/customers',function(Request $request){
     return response()->json($customers);
 
 })->name('api.customers.index');
+
+Route::post('/reasons',function(Request $request){
+    $reasons= Reason::select('id','name')
+    ->when($request->search,function($query, $search){
+        $query
+            ->where('name', 'like', "%{$search}%");
+    })
+    ->when(
+        $request->exists('selected'),
+            fn ( $query) => $query->whereIn('id', $request->input('selected', [])),
+            fn ( $query) => $query->limit(10)
+    )
+    ->where('type', $request->input('type',''))
+    ->get();
+    
+    return response()->json($reasons);
+
+})->name('api.reasons.index');

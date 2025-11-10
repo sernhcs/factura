@@ -1,6 +1,6 @@
 <x-admin-layout 
 
-title="Cotizaciones"
+title="Entradas y salidas"
 
 :breadcrumbs="[
     [
@@ -8,8 +8,8 @@ title="Cotizaciones"
         'href' => route('admin.dashboard'),
     ],
     [
-        'name' => 'Cotizaciones',
-        'href' => route('admin.quotes.index'),
+        'name' => 'Entradas y salidas',
+        'href' => route('admin.movements.index'),
 
     ],
     [
@@ -17,6 +17,6 @@ title="Cotizaciones"
     ],
 ]">
 
-@livewire('admin.quote-create')
+@livewire('admin.movement-create')
 
 </x-admin-layout >
