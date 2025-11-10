@@ -4,17 +4,17 @@ namespace App\Livewire\Admin\Datatables;
 
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
-use App\Models\Purchase;
+use App\Models\Sale;
 use Illuminate\Database\Eloquent\Builder;
 
-class PurchaseTable extends DataTableComponent
+class SaleTable extends DataTableComponent
 {
 
     public function configure(): void
     {
         $this->setPrimaryKey('id');
         $this->setDefaultSort('id', 'desc');
-        $this->setAdditionalSelects(['purchases.id']);    
+        $this->setAdditionalSelects(['sales.id']);    
     }
 
     public function columns(): array
@@ -33,10 +33,10 @@ class PurchaseTable extends DataTableComponent
             Column::make("Correlativo", "correlative")
                 ->sortable(),
             
-            Column::make("Document", "supplier.document_number")
+            Column::make("Document", "customer.document_number")
                 ->sortable(),
 
-            Column::make("Razon social", "supplier.name")
+            Column::make("Razon social", "customer.name")
                 ->sortable(),
 
             Column::make("Total", "total")
@@ -45,8 +45,8 @@ class PurchaseTable extends DataTableComponent
             
             Column::make('Acciones')
                 ->label(function($row) {
-                    return view('admin.purchases.actions',
-                        ['purchase' => $row]);
+                    return view('admin.sales.actions',
+                        ['sale' => $row]);
                 }),
         ];
         
@@ -55,8 +55,8 @@ class PurchaseTable extends DataTableComponent
 
     public function builder():Builder
     {
-        return Purchase::query()
-            ->with(['supplier']);
+        return Sale::query()
+            ->with(['customer']);
     }
 
 }

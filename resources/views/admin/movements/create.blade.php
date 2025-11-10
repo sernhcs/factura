@@ -1,6 +1,6 @@
 <x-admin-layout 
 
-title="Ventas"
+title="Cotizaciones"
 
 :breadcrumbs="[
     [
@@ -8,8 +8,8 @@ title="Ventas"
         'href' => route('admin.dashboard'),
     ],
     [
-        'name' => 'Ventas',
-        'href' => route('admin.sales.index'),
+        'name' => 'Cotizaciones',
+        'href' => route('admin.quotes.index'),
 
     ],
     [
@@ -17,6 +17,6 @@ title="Ventas"
     ],
 ]">
 
-@livewire('admin.sale-create')
+@livewire('admin.quote-create')
 
 </x-admin-layout >

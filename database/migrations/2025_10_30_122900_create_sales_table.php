@@ -25,8 +25,9 @@ return new class extends Migration
 
 
             $table->foreignId('quote_id')
+                ->nullable()
                 ->constrained()
-                ->onDelete('cascade');  
+                ->onDelete('set null');  
 
             $table->foreignId('customer_id')
                 ->constrained()

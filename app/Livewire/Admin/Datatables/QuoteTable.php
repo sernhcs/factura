@@ -44,8 +44,8 @@ class QuoteTable extends DataTableComponent
             
             Column::make('Acciones')
                 ->label(function($row) {
-                    return view('admin.purchase-orders.actions',
-                        ['purchaseOrder' => $row]);
+                    return view('admin.quotes.actions',
+                        ['quote' => $row]);
                 }),
         ];
         

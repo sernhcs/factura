@@ -17,6 +17,10 @@ class Sale extends Model
         'total',
         'observation',
     ];
+    
+    protected $casts=[
+        'date'=>'datetime:d/m/Y',
+    ];
 
     // realcion yuno amuchos inversa
     public function customer()
