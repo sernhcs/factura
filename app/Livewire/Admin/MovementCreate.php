@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Facades\Kardex;
 use App\Models\Inventory;
 use App\Models\Movement;
 use App\Models\Quote;
@@ -108,11 +109,11 @@ class MovementCreate extends Component
             // kardex con ineyccion
             if($this->type==1){
                 
-                $kardex->registerEntry($movement, $product, $this->warehouse_id,'Movimiento');
+                Kardex::registerEntry($movement, $product, $this->warehouse_id,'Movimiento');
             
             } elseif($this->type==2){
                     
-                $kardex->registerExit($movement, $product, $this->warehouse_id,'Movimiento');
+                Kardex::registerExit($movement, $product, $this->warehouse_id,'Movimiento');
 
             }
         }

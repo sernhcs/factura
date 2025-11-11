@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Facades\Kardex;
 use App\Models\Inventory;
 use App\Models\Purchase;
 use App\Models\PurchaseOrder;
@@ -80,7 +81,7 @@ class SaleCreate extends Component
     }
 
 
-    public function save(KardexService $kardex)
+    public function save()
     {
         $this->validate([
             'voucher_type' => 'required|in:1,2',
@@ -158,7 +159,7 @@ class SaleCreate extends Component
         // ]);
 
         // Kardex con inyecccion
-        $kardex->registerExit($sale,$product,$this->warehouse_id,'Venta');
+        Kardex::registerExit($sale,$product,$this->warehouse_id,'Venta');
 
         // Redirigir o mostrar un mensaje de éxito
         session()->flash('swal',[

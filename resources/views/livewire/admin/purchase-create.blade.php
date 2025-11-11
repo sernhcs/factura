@@ -92,6 +92,8 @@ init(){
                 option-value="id"
                 option-description="description"
                 placeholder="Seleccione un almacén"
+                :disabled="count($products)"
+
             />    
         </div>
 

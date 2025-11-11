@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Facades\Kardex;
 use App\Models\Inventory;
 use App\Models\Purchase;
 use App\Models\PurchaseOrder;
@@ -74,7 +75,7 @@ class PurchaseCreate extends Component
     }
 
 
-    public function save(KardexService $kardex)
+    public function save()
     {
         $this->validate([
             'voucher_type' => 'required|in:1,2',
@@ -124,35 +125,8 @@ class PurchaseCreate extends Component
             ]);
         }
 
-
-        //Kardex
-        // $lastRecord = Inventory::where('product_id',$product['id'])
-        //     ->where('warehouse_id',$this->warehouse_id)
-        //     ->latest('id')
-        //     ->first();
-
-        // $lastQuantityBalance = $lastRecord?->quantity_balance ?? 0;
-        // $lastTotalBalance = $lastRecord?->total_balance ?? 0;
-
-        // $newQuantityBalance = $lastQuantityBalance + $product['quantity'];
-        // $newTotalBalance = $lastTotalBalance + ($product['quantity'] * $product['price']);
-
-        // $newCostBalance = $newTotalBalance/($newQuantityBalance ?: 1);
-
-        // $purchase->inventories()->create([
-        //     'detail'=>'Compra',
-        //     'quantity_in'=> $product['quantity'],
-        //     'cost_in'=>$product['price'],
-        //     'total_in'=>$product['quantity']*$product['price'],
-        //     'quantity_balance'=>$newQuantityBalance,
-        //     'cost_balance'=>$newCostBalance,
-        //     'total_balance'=>$newTotalBalance,
-        //     'product_id'=>$product['id'],
-        //     'warehouse_id'=>$this->warehouse_id,
-        // ]);
-
         // kardex con servicio
-        $kardex->registerEntry($purchase,$product,$this->warehouse_id,'Compra');
+        Kardex::registerEntry($purchase,$product,$this->warehouse_id,'Compra');
 
 
         // Redirigir o mostrar un mensaje de éxito
@@ -173,8 +147,10 @@ class PurchaseCreate extends Component
     {
         $this->validate([
             'product_id' => 'required|exists:products,id',
+            'warehouse_id'=> 'required|exists:warehouses,id',
         ],[],[
             'product_id' => 'Producto',
+            'warehouse_id'=>'Almacén'
         ]);
 
 
@@ -189,12 +165,16 @@ class PurchaseCreate extends Component
         }
 
         $product = \App\Models\Product::find($this->product_id);
+
+        $lastRecord = Kardex::getLastRecord($product->id, $this->warehouse_id);
+
+
         $this->products[] = [
             'id' => $product->id,
             'name' => $product->name,
             'quantity' => 1,
-            'price' => 0,
-            'subtotal' => 0,
+            'price' => $lastRecord['cost'],
+            'subtotal' => $lastRecord['cost'],
         ];
         $this->reset('product_id');
     }
