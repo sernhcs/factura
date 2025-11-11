@@ -35,4 +35,5 @@ class Inventory extends Model
     public function inventoryable(){
         return $this->morphTo();
     }
+    
 }

@@ -1,5 +1,5 @@
 <div x-data="{
-products: @entangle('products'),
+products: @entangle('products').live,
 total: @entangle('total'),
 
 
@@ -66,6 +66,7 @@ init(){
                 option-value="id"
                 option-description="description"
                 placeholder="Seleccione un almacén"
+                :disabled="count($products)"
             />    
             <x-wire-select
                 class="col-span-1"
@@ -117,7 +118,7 @@ init(){
                     <tr class="bg-gray-100">
                         <th class="px-4 py-2 font-medium text-gray-900">Producto</th>
                         <th class="px-4 py-2 font-medium text-gray-900">Cantidad</th>
-                        <th class="px-4 py-2 font-medium text-gray-900">Precio Unitario</th>
+                        <th class="px-4 py-2 font-medium text-gray-900">Precio costo</th>
                         <th class="px-4 py-2 font-medium text-gray-900">Total</th>
                         <th class="px-4 py-2 font-medium text-gray-900">Acciones</th>
                     </tr>

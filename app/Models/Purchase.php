@@ -33,4 +33,9 @@ class Purchase extends Model
             ->withPivot('quantity','price','subtotal')
             ->withTimeStamps();
     }
+    
+    //relacion uno a muchos polimorf
+    public function inventories(){
+        return $this->morphMany(Inventory::class,'inventoryable');
+    }
 }

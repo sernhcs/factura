@@ -36,4 +36,8 @@ class Sale extends Model
             ->withTimeStamps();
     }
 
+    //relacion uno a mhcos inversa
+    public function inventories(){
+        return $this->morphMany(Inventory::class,'inventoryable');
+    }
 }
