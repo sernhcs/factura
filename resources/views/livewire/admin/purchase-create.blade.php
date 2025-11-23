@@ -4,7 +4,7 @@ total: @entangle('total'),
 
 
 removeProduct(index) {
-    this.products.splice(index, 1); 
+    this.products.splice(index, 1);
 },
 
 
@@ -22,9 +22,9 @@ init(){
 
     <form wire:submit="save" class="space-y-4">
         <div class="grid lg:grid-cols-4 gap-4">
-            <x-wire-native-select 
-                class="col-span-1" 
-                label="Tipo de Comprobante" 
+            <x-wire-native-select
+                class="col-span-1"
+                label="Tipo de Comprobante"
                 wire:model="voucher_type"
             >
                 <option value="1">Factura</option>
@@ -32,23 +32,23 @@ init(){
             </x-wire-native-select>
 
              <div class="col-span-1 grid grid-cols-2 gap-2">
-                <x-wire-input 
-                     
-                    label="Serie" 
-                    wire:model="serie" 
+                <x-wire-input
+
+                    label="Serie"
+                    wire:model="serie"
                 />
-                <x-wire-input 
-                     
-                    label="Correlativo" 
-                    wire:model="correlative" 
+                <x-wire-input
+
+                    label="Correlativo"
+                    wire:model="correlative"
                 />
             </div>
 
-            <x-wire-input 
-                type="date" 
-                class="col-span-1" 
-                label="Fecha de emisión" 
-                wire:model="date" 
+            <x-wire-input
+                type="date"
+                class="col-span-1"
+                label="Fecha de emisión"
+                wire:model="date"
             />
             <x-wire-select
                 label="OC"
@@ -63,9 +63,9 @@ init(){
                 placeholder="Seleccione una OC"
                 class="col-span-1"
             />
-           
+
         </div>
-      
+
         <div class="grid lg:grid-cols-4 gap-4">
             {{-- Proveedor ocupa las dos primeras columnas --}}
             <x-wire-select
@@ -79,7 +79,7 @@ init(){
                 option-label="name"
                 option-value="id"
                 placeholder="Seleccione un proveedor"
-            />    
+            />
             <x-wire-select
                 class="col-span-2"
                 label="Almacenes"
@@ -92,13 +92,13 @@ init(){
                 option-value="id"
                 option-description="description"
                 placeholder="Seleccione un almacén"
-                :disabled="count($products)"
+                {{-- :disabled="count($products)"--}}
 
-            />    
+            />
         </div>
 
         <div class="lg:grid lg:grid-cols-3 lg:flex lg:space-x-4 gap-4 mt-4">
-        
+
             <x-wire-select
                 label="Producto"
                 wire:model="product_id"
@@ -112,8 +112,8 @@ init(){
                 class="col-span-1"
             />
             <div class="col-span-1 flex-shrink-0 flex items-end justify-center">
-                <x-wire-button 
-                    wire:click="addProduct" 
+                <x-wire-button
+                    wire:click="addProduct"
                     spinner="addProduct"
                     class="w-full mt-4 lg:mt-6">
                     Agregar Producto
@@ -121,10 +121,10 @@ init(){
             </div>
 
             {{-- <div class="col-span-1">
-                <x-wire-input 
-                    label="RUC" 
-                    wire:model="supplier_ruc" 
-                    disabled 
+                <x-wire-input
+                    label="RUC"
+                    wire:model="supplier_ruc"
+                    disabled
                 />
             </div> --}}
         </div>
@@ -141,36 +141,36 @@ init(){
                 </thead>
                 <tbody class="divide-y divide-gray-200">
                     <template x-for="(product,index) in products" :key="product.id">
-                                    
+
                         <tr class="border-b">
                             <td class="px-4 py-2 text-gray-700" x-text="product.name"></td>
                             <td class="px-4 py-2 text-gray-700">
-                                <x-wire-input 
-                                    type="number" 
-                                    min="1" 
-                                    class="w-20" 
+                                <x-wire-input
+                                    type="number"
+                                    min="1"
+                                    class="w-20"
                                     x-model="product.quantity"
-                                    >  
+                                    >
                                 </x-wire-input>
                             </td>
                             <td class="px-4 py-2 text-gray-700">
-                                <x-wire-input 
-                                    type="number" 
-                                    min="0.01" 
-                                    step="0.01" 
-                                    class="w-24" 
-                                    x-model="product.price"        
-                                    >   
+                                <x-wire-input
+                                    type="number"
+                                    min="0.01"
+                                    step="0.01"
+                                    class="w-24"
+                                    x-model="product.price"
+                                    >
                                 </x-wire-input>
                             </td>
                             <td class="px-4 py-2 text-gray-700" x-text="(product.quantity*product.price).toFixed(2)"></td>
                             <td class="px-4 py-2 text-gray-700">
-                                <x-wire-mini-button 
+                                <x-wire-mini-button
 
                                     x-on:click="removeProduct(index)"
                                     color="red"
                                     icon="trash">
-                                    
+
                                 </x-wire-mini-button>
                             </td>
                         </tr>
@@ -195,8 +195,8 @@ init(){
 
             <!-- Input de observación -->
             <div class="col-span-1">
-                <x-wire-input 
-                    class="w-full" 
+                <x-wire-input
+                    class="w-full"
                     wire:model="observation">
                 </x-wire-input>
             </div>
@@ -208,10 +208,10 @@ init(){
                 </x-label>
                 <span class="text-sm" x-text="total.toFixed(2)"></span>
             </div>
-            <x-wire-button 
-            type="submit" icon="check" 
+            <x-wire-button
+            type="submit" icon="check"
             spinner="save"
-            class="col-span-1 w-full"> 
+            class="col-span-1 w-full">
                 Guardar
                     </x-wire-button>
                 </div>

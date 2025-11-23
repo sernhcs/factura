@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\ProductController;
+use \App\Http\Controllers\Admin\PurchaseController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -26,7 +27,7 @@ Route::delete('images/{image}',[ImageController::class,'destroy'])->name('images
 //  compras
 Route::resource('suppliers',\App\Http\Controllers\Admin\SupplierController::class)->except(['show']);
 Route::resource('purchase-orders',\App\Http\Controllers\Admin\PurchaseOrderController::class)->only(['index','create']);
-Route::resource('purchases',\App\Http\Controllers\Admin\PurchaseController::class)->only(['index','create']);
+Route::resource('purchases',PurchaseController::class)->only(['index','create']);
 
 // clientes
 Route::resource('customers',\App\Http\Controllers\Admin\CustomerController::class)->except(['show']);

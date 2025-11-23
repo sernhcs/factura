@@ -6,6 +6,7 @@ use App\Models\Movement;
 use App\Models\Quote;
 use App\Models\Product;
 use App\Models\Transfer;
+use App\Facades\Kardex;
 use Livewire\Component;
 
 class TransferCreate extends Component
@@ -24,7 +25,7 @@ class TransferCreate extends Component
     public function boot()
     {
         $this->withValidator(function ($validator) {
-           
+
                 if ($validator->fails()) {
                     $errors = $validator->errors()->toArray();
                     $html="<ul class='text-left'>";
@@ -39,12 +40,12 @@ class TransferCreate extends Component
                     ]);
                 }
         });
-        
+
     }
     public function mount()
     {
         $this->correlative = Transfer::max('correlative')+1 ;
-    }   
+    }
 
     public function updated($property,$value){
         if($property=='origin_warehouse_id'){
@@ -65,7 +66,7 @@ class TransferCreate extends Component
             'observation' => 'nullable|string|max:255',
             'products' => 'required|array|min:1',
             'products.*.id' => 'required|exists:products,id',
-            'products.*.quantity' => 'required|integer|min:1',   
+            'products.*.quantity' => 'required|integer|min:1',
             'products.*.price' => 'required|numeric|min:0',
         ],[],[
             'date' => 'Fecha',
@@ -97,6 +98,19 @@ class TransferCreate extends Component
                 'price' => $product['price'],
                 'subtotal' => $product['quantity'] * $product['price'],
             ]);
+
+            Kardex::registerExit(
+                $transfer,
+                $product,
+                $this->origin_warehouse_id,
+                "Transferencia salida"
+            );
+            Kardex::registerEntry(
+                $transfer,
+                $product,
+                $this->destination_warehouse_id,
+                "Transferencia entrada"
+            );
         }
 
 
@@ -111,15 +125,18 @@ class TransferCreate extends Component
 
     public function render()
     {
-        
+
         return view('livewire.admin.transfer-create');
     }
     public function addProduct()
     {
         $this->validate([
             'product_id' => 'required|exists:products,id',
+            'origin_warehouse_id'=> 'required|exists:warehouses,id',
         ],[],[
             'product_id' => 'Producto',
+            'origin_warehouse_id' => 'almacen origen',
+
         ]);
 
 
@@ -134,12 +151,19 @@ class TransferCreate extends Component
         }
 
         $product = Product::find($this->product_id);
+
+        $lastRecord = Kardex::getLastRecord(
+            $product->id,
+            $this->origin_warehouse_id
+        );
+
+
         $this->products[] = [
             'id' => $product->id,
             'name' => $product->name,
             'quantity' => 1,
-            'price' => $product->price,
-            'subtotal' => $product->price,
+            'price' => $lastRecord['cost'],
+            'subtotal' => $lastRecord['cost'],
         ];
         $this->reset('product_id');
     }

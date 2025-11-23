@@ -38,4 +38,10 @@ class Transfer extends Model
         ->withPivot('quantity','price','subtotal')
         ->withTimeStamps();
     }
+
+        //relacion uno a mhcos inversa
+    public function inventories(){
+        return $this->morphMany(Inventory::class,'inventoryable');
+    }
+
   }
