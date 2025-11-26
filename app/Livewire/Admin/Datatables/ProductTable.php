@@ -5,6 +5,9 @@ namespace App\Livewire\Admin\Datatables;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Product;
+use App\Models\Inventory;
+use Illuminate\Support\Facades\DB;
+
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ImageColumn;
 
@@ -16,6 +19,11 @@ class ProductTable extends DataTableComponent
     {
         $this->setPrimaryKey('id');
         $this->setDefaultSort('id', 'desc');
+        $this->setConfigurableAreas([
+            'after-wrapper'=>[
+                'admin.products.modal'
+            ]
+        ]);
     }
 
     public function columns(): array
@@ -41,7 +49,15 @@ class ProductTable extends DataTableComponent
             Column::make("Precio", "price")
                 ->sortable(),
             Column::make("Stock", "stock")
-                ->sortable(),
+                ->sortable()
+                ->format(function($val,$row){
+                    return view('admin.products.stock',[
+                        'stock'=>$val,
+
+                        'product'=>$row
+
+                    ]);
+                }),
             Column::make("Acciones", "description")
                 ->label(function($row){
                     return view('admin.products.actions',['product'=>$row]);
@@ -56,4 +72,23 @@ class ProductTable extends DataTableComponent
             ->with(['category','images']);
     }
 
+    public $openModal= false;
+
+    public $inventories =[];
+
+    public function showStock($productId){
+        $this->openModal = true;
+        $latestInventories = Inventory::where('product_id',$productId)
+            ->select('warehouse_id', DB::raw('MAX(id) as id'))
+            ->groupBy('warehouse_id')
+            ->get();
+
+    $ids = $latestInventories->pluck('id')->toArray();
+
+
+    $this->inventories = Inventory::whereIn('id', $ids)
+        ->with('warehouse')
+        ->get();
+
+    }
 }
