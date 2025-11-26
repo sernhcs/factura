@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Inventory;
+use App\Models\Product;
+
 
 class KardexService
 {
@@ -26,7 +28,7 @@ class KardexService
         $newQuantityBalance = $lastRecord['quantity'] + $product['quantity'];
         $newTotalBalance = $lastRecord['total'] + ($product['quantity'] * $product['price']);
         $newCostBalance = $newTotalBalance/($newQuantityBalance ?: 1);
-        
+
         $model->inventories()->create([
             'detail'=>$detail,
             'quantity_in'=> $product['quantity'],
@@ -38,28 +40,14 @@ class KardexService
             'product_id'=>$product['id'],
             'warehouse_id'=>$warehouseId,
         ]);
+
+        Product::where('id',$product['id'])
+            ->increment('stock',$product['quantity']);
     }
 
-    
-    public function registerExit($model, array $product, $warehouseId,$detail){
-        // $lastRecord = $this->getLastRecord($product['id'],$warehouseId);
-        
-        // $newQuantityBalance = $lastRecord['quantity'] - $product['quantity'];
 
-        // $newTotalBalance = $lastRecord['total'] - ($product['quantity'] * $product['price']);
-        // $newCostBalance = $newTotalBalance/($newQuantityBalance ?: 1);
-        
-        // $model->inventories()->create([
-        //     'detail'=>$detail,
-        //     'quantity_out'=> $product['quantity'],
-        //     'cost_out'=>$product['price'],
-        //     'total_out'=>$product['quantity']*$lastRecord['price'],
-        //     'quantity_balance'=>$newQuantityBalance,
-        //     'cost_balance'=>$newCostBalance,
-        //     'total_balance'=>$newTotalBalance,
-        //     'product_id'=>$product['id'],
-        //     'warehouse_id'=>$warehouseId,
-        // ]);
+    public function registerExit($model, array $product, $warehouseId,$detail){
+
         $lastRecord = $this->getLastRecord($product['id'], $warehouseId);
 
         // Validar que hay stock suficiente
@@ -71,8 +59,8 @@ class KardexService
         // Calcular nuevos saldos
         $newQuantityBalance = $lastRecord['quantity'] - $product['quantity'];
         $newTotalBalance =$lastRecord['total'] - ($product['quantity'] * $product['price']);
-        $newCostBalance = $newQuantityBalance > 0 
-            ? $newTotalBalance / $newQuantityBalance 
+        $newCostBalance = $newQuantityBalance > 0
+            ? $newTotalBalance / $newQuantityBalance
             : 0;
 
         // Registrar movimiento
@@ -88,10 +76,12 @@ class KardexService
             'warehouse_id' => $warehouseId,
         ]);
 
+        Product::where('id',$product['id'])
+            ->decrement('stock',$product['quantity']);
 
 
     }
 
-    
+
 
 }

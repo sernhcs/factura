@@ -31,7 +31,7 @@ class ProductTable extends DataTableComponent
                         'style' => 'width:50px; height:50px; object-fit:cover; border-radius:30%;',
                     ];
                 }),
-                
+
             Column::make("Nombre", "name")
                 ->searchable()
                 ->sortable(),
@@ -39,6 +39,8 @@ class ProductTable extends DataTableComponent
                 ->searchable()
                 ->sortable(),
             Column::make("Precio", "price")
+                ->sortable(),
+            Column::make("Stock", "stock")
                 ->sortable(),
             Column::make("Acciones", "description")
                 ->label(function($row){

@@ -28,6 +28,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->string('observation')
                 ->nullable();
+            $table->integer('stock')->default(0);
             $table->timestamps();
         });
     }

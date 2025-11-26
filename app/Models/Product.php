@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
-{   
+{
     use HasFactory;
-    
+
     protected $fillable=[
         'name',
         'description',
@@ -20,6 +20,7 @@ class Product extends Model
         'price',
         'category_id',
         'observation',
+        'stock'
     ];
 
 
@@ -37,7 +38,7 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    // realcion uno a muchos 
+    // realcion uno a muchos
     public function inventories()
     {
         return $this->hasMany(Inventory::class);
